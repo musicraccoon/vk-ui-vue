@@ -1,0 +1,14 @@
+{
+  "name": "vkui-vue",
+  "version": "",
+  "description": "",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "packageManager": "pnpm@9.9.0"
+}
