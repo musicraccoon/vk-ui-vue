@@ -9,7 +9,6 @@ import type { Preview } from "@storybook/vue3";
 import AppRoot from "../src/components/AppRoot/AppRoot.vue";
 
 const preview: Preview = {
-  tags: ["autodocs"],
   parameters: {
     controls: { expanded: true },
   },
