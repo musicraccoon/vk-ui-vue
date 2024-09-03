@@ -6,20 +6,13 @@ import "../src/styles/adaptivity.module.css";
 
 import type { Preview } from "@storybook/vue3";
 
-import AppRoot from "../src/components/AppRoot/AppRoot.vue";
+import { withVKUIWrapper } from "./decorators/VKUIDecorators";
 
 const preview: Preview = {
   parameters: {
     controls: { expanded: true },
   },
-  decorators: [
-    () => {
-      return {
-        components: { AppRoot },
-        template: "<AppRoot><story/></AppRoot>",
-      };
-    },
-  ],
+  decorators: [withVKUIWrapper],
 };
 
 export default preview;

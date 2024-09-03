@@ -18,9 +18,7 @@ const meta: Meta<typeof VisuallyHidden> = {
 
 export default meta;
 
-export const Playground: StoryObj<
-  typeof VisuallyHidden & { children: string }
-> = {
+export const Playground: StoryObj<typeof VisuallyHidden> = {
   args: {
     component: "span",
     default:
