@@ -1,7 +1,7 @@
-import { h } from "vue";
 import type { Meta, StoryObj } from "@storybook/vue3";
 import ConfigProvider from "./ConfigProvider.vue";
-import { useConfigProvider } from "./useConfigProvider";
+import { useConfig } from "../../composables/useConfig";
+import { defineComponent } from "vue";
 
 const meta: Meta<typeof ConfigProvider> = {
   title: "Service/ConfigProvider",
@@ -11,12 +11,27 @@ const meta: Meta<typeof ConfigProvider> = {
 export default meta;
 
 export const Playground: StoryObj<typeof ConfigProvider> = {
-  render: () => {
-    return {
+  render: (args) => {
+    const DisplayConfigProvider = defineComponent({
+      name: "DisplayConfigProvider",
       setup() {
-        const config = useConfigProvider();
-        return () => h("pre", JSON.stringify(config.value));
+        const config = useConfig();
+
+        return { config };
       },
+      template: "<pre>{{ config }}</pre>",
+    });
+
+    return {
+      components: { ConfigProvider, DisplayConfigProvider },
+      setup() {
+        return { args };
+      },
+      template: `
+        <ConfigProvider v-bind="args">
+          <DisplayConfigProvider />
+        </ConfigProvider>
+      `,
     };
   },
 };

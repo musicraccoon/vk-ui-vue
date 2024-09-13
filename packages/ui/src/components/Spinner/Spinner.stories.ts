@@ -14,10 +14,9 @@ const meta: Meta<typeof Spinner> = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
-
-export const Playground: Story = {
+export const Playground: StoryObj<typeof meta> = {
   args: {
     size: "regular",
+    disableAnimation: false,
   },
 };
