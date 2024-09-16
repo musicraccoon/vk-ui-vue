@@ -1,5 +1,3 @@
-import { TokensClassNames } from "./types";
-
 export const DEFAULT_TOKENS_CLASS_NAMES = {
   android: {
     light: "vkui--vkBase--light",
@@ -13,4 +11,4 @@ export const DEFAULT_TOKENS_CLASS_NAMES = {
     light: "vkui--vkCom--light",
     dark: "vkui--vkCom--dark",
   },
-} as TokensClassNames;
+};

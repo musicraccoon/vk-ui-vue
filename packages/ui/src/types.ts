@@ -1,1 +1,5 @@
-export type ValuesOfObject<T> = T[keyof T];
+export interface Version {
+  major: number;
+  minor?: number;
+  patch?: number;
+}

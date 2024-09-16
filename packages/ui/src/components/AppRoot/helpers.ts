@@ -1,13 +1,18 @@
-import type { SizeTypeValues } from "../../lib/adaptivity";
-import { AppRootUserSelectMode, AppRootMode, AppRootLayout } from "./types";
+import type { Size } from "../../lib/adaptivity";
+import {
+  AppRootUserSelectMode,
+  AppRootMode,
+  AppRootLayout,
+  SafeAreaInsets,
+} from "./types";
 import styles from "./AppRoot.module.css";
 
 type ContainerClassNamesProps = {
   mode: AppRootMode;
   layout?: AppRootLayout;
   tokensClassName: string;
-  sizeX: SizeTypeValues | "none";
-  sizeY: SizeTypeValues | "none";
+  sizeX: Size | "none";
+  sizeY: Size | "none";
 };
 
 export const getClassNamesByMode = ({
@@ -82,4 +87,42 @@ export const getUserSelectModeClassName = ({
     default:
       return isWebView ? styles["AppRoot--user-select-none"] : null;
   }
+};
+
+export const CUSTOM_PROPERTY_INSET_PREFIX = `--vkui_internal--safe_area_inset_`;
+
+export const setSafeAreaInsets = (
+  safeAreaInsets: SafeAreaInsets | undefined,
+  rootContainer: HTMLElement,
+  portalContainer?: HTMLElement
+): (() => void) => {
+  if (!safeAreaInsets) {
+    return () => void 0;
+  }
+
+  for (const key in safeAreaInsets) {
+    if (
+      safeAreaInsets.hasOwnProperty(key) &&
+      typeof safeAreaInsets[key as keyof SafeAreaInsets] === "number"
+    ) {
+      const propertyKey = `${CUSTOM_PROPERTY_INSET_PREFIX}${key}`;
+      const propertyValue = safeAreaInsets[key as keyof SafeAreaInsets];
+      rootContainer.style.setProperty(propertyKey, `${propertyValue}px`);
+      if (portalContainer) {
+        portalContainer.style.setProperty(propertyKey, `${propertyValue}px`);
+      }
+    }
+  }
+
+  return function unset() {
+    for (const key in safeAreaInsets) {
+      if (safeAreaInsets.hasOwnProperty(key)) {
+        const propertyKey = `${CUSTOM_PROPERTY_INSET_PREFIX}${key}`;
+        rootContainer.style.removeProperty(propertyKey);
+        if (portalContainer) {
+          portalContainer.style.removeProperty(propertyKey);
+        }
+      }
+    }
+  };
 };

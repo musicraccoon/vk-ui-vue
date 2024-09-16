@@ -7,28 +7,32 @@ import { provide, computed } from "vue";
 import type { ConfigProvider } from "./types";
 import { configInjectionKey, useConfig } from "../../composables/useConfig";
 import { DEFAULT_TOKENS_CLASS_NAMES } from "../../lib/tokens";
+import { Platform } from "../../lib/platform";
+import { excludeKeysWithUndefined } from "../../lib/utils";
 
 export interface ConfigProviderProps extends Partial<ConfigProvider> {}
 
-const props = withDefaults(defineProps<ConfigProviderProps>(), {
+const props = defineProps<ConfigProviderProps>();
+const clearProps = computed(() => excludeKeysWithUndefined(props));
+
+const defaultProps: ConfigProviderProps = {
   hasCustomPanelHeaderAfter: false,
   customPanelHeaderAfterMinWidth: 90,
   isWebView: false,
   transitionMotionEnabled: true,
-  // TODO. Добавить автоопределение платформы по User Agent
-  platform: "android",
+  platform: Platform.Android,
   appearance: undefined,
-  // TODO. Из-за withDefaults появляется ошибка TS.
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
   tokensClassNames: DEFAULT_TOKENS_CLASS_NAMES,
   locale: "ru",
-});
-
+};
 const parentConfig = useConfig();
 
-const config = computed<ConfigProvider>(() => {
-  return { ...parentConfig?.value, ...props };
+const config = computed(() => {
+  return {
+    ...defaultProps,
+    ...parentConfig?.value,
+    ...clearProps.value,
+  } as ConfigProvider;
 });
 
 provide(configInjectionKey, config);

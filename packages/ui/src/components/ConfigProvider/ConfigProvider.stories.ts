@@ -1,11 +1,19 @@
+import { defineComponent } from "vue";
 import type { Meta, StoryObj } from "@storybook/vue3";
 import ConfigProvider from "./ConfigProvider.vue";
 import { useConfig } from "../../composables/useConfig";
-import { defineComponent } from "vue";
+import {
+  CanvasFullLayout,
+  DisableCartesianParam,
+} from "../../../.storybook/constants";
 
 const meta: Meta<typeof ConfigProvider> = {
   title: "Service/ConfigProvider",
   component: ConfigProvider,
+  parameters: {
+    ...CanvasFullLayout,
+    ...DisableCartesianParam,
+  },
 };
 
 export default meta;

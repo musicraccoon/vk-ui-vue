@@ -1,9 +1,10 @@
-import type { CSSProperties } from "vue";
+import { ref, type CSSProperties } from "vue";
 import type { Decorator } from "@storybook/vue3";
 
 import AppRoot from "../../src/components/AppRoot/AppRoot.vue";
 import AdaptivityProvider from "../../src/components/AdaptivityProvider/AdaptivityProvider.vue";
 import ConfigProvider from "../../src/components/ConfigProvider/ConfigProvider.vue";
+import { Platform } from "../../src/lib/platform";
 
 const CenteredStyle: CSSProperties = {
   display: "flex",
@@ -12,8 +13,13 @@ const CenteredStyle: CSSProperties = {
   flexDirection: "column",
 };
 
+const platform = ref<Platform>();
+
 export const withVKUIWrapper: Decorator = (_, context) => {
-  const { hasPointer = false, platform } = context.globals;
+  const globals = context.globals;
+
+  const hasPointer = globals.hasPointer;
+  platform.value = globals.platform;
 
   const { centered } = context.parameters;
 
@@ -40,16 +46,4 @@ export const withVKUIWrapper: Decorator = (_, context) => {
     </ConfigProvider>
     `,
   };
-
-  /* return h(ConfigProvider, { platform }, () => {
-    return h(AdaptivityProvider, { hasPointer }, () => {
-      return h(
-        AppRoot,
-        { style },
-        {
-          default: () => h(Story() as RenderFunction),
-        }
-      );
-    });
-  }); */
 };

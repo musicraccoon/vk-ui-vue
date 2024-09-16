@@ -1,72 +1,21 @@
 <template>
-  <div :class="$style['AppRoot']">
+  <div ref="appRootRef" :class="[$style['AppRoot'], userSelectModeClassName]">
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
-import { getClassNamesByMode } from "./helpers";
-import type {
-  AppRootLayout,
-  AppRootMode,
-  AppRootScroll,
-  AppRootUserSelectMode,
-  SafeAreaInsets,
-} from "./types";
-
-export interface AppRootProps {
-  /**
-   * Режим встраивания
-   *
-   * @default full
-   */
-  mode?: AppRootMode;
-  /**
-   * - `global` (по умолчанию) — VKUI-приложение скроллится вместе со страницей.
-   * - `contain` — VKUI-приложение живет в отдельной зоне и скроллится независимо внутри `AppRoot` (например, в модалке).
-   *
-   * Полезно при использовании `mode="embedded"`.
-   *
-   * @default global
-   */
-  scroll?: AppRootScroll;
-  /**
-   * см. документацию [mdn web docs | env#values](https://developer.mozilla.org/en-US/docs/Web/CSS/env#values).
-   */
-  safeAreaInsets?: SafeAreaInsets;
-  /**
-   * Кастомный root-элемент портала
-   */
-  portalRoot?: HTMLElement;
-  /**
-   * Отключает рендер всплывающих компонентов в отдельном контейнере
-   */
-  disablePortal?: boolean;
-  /**
-   * По умолчанию, mode="embedded" переносит систему координат элементов с `position: fixed` на
-   * свой контейнер через `transform: translate3d(0, 0, 0)`.
-   *
-   * Это поведение можно отключить с помощью этого параметра.
-   */
-  disableParentTransformForPositionFixedElements?: boolean;
-  /**
-   * Глобально задаёт тип оформления макета для компонентов
-   * [Panel](https://vkcom.github.io/VKUI/#/Panel) и [Group](https://vkcom.github.io/VKUI/#/Group).
-   */
-  layout?: AppRootLayout;
-  /**
-   * Задаёт режим выбора текста (выделения текста) для всего приложения.
-   * По умолчанию, если режим не задан, запрещает выбор текста в приложениях,
-   * запущенных в webview (по значению свойства `isWebView` из [ConfigProvider](https://vkcom.github.io/VKUI/#/ConfigProvider)).
-   *
-   * - `enabled-with-pointer` – разрешает выбор текста, если устройство ввода типа `pointer` (например, `мышь`), в остальных случаях запрещает;
-   * - `disabled` – запрещает выбор текста;
-   * - `enabled` – разрешает выбор текста.
-   *
-   * @since 6.2.0
-   */
-  userSelectMode?: AppRootUserSelectMode;
-}
+import { ref, watchEffect } from "vue";
+import {
+  getClassNamesByMode,
+  getUserSelectModeClassName,
+  setSafeAreaInsets,
+} from "./helpers";
+import type { AppRootProps } from "./types";
+import { useAdaptivity } from "../../composables/useAdaptivity";
+import { useTokensClassName } from "../../lib/tokens";
+// import { useKeyboardInputTracker } from "../../composables/useKeyboardInputTracker";
+import { useConfig } from "../../composables/useConfig";
 
 const props = withDefaults(defineProps<AppRootProps>(), {
   mode: "full",
@@ -77,21 +26,86 @@ const props = withDefaults(defineProps<AppRootProps>(), {
   userSelectMode: undefined,
 });
 
-// const { hasPointer, sizeX = 'none', sizeY = 'none' } = useAdaptivity();
+const { hasPointer, sizeX = "none", sizeY = "none" } = useAdaptivity().value;
+const { isWebView } = useConfig()!.value;
+const tokensClassName = useTokensClassName();
 
-/* const [baseClassNames, stylesClassNames] = getClassNamesByMode({
-  mode: props.mode,
-  layout: props.layout,
-  tokensClassName: props.tokensClassName,
-  sizeX: props.sizeX,
-  sizeY: props.sizeY,
-}); */
+// const isKeyboardInputActive = useKeyboardInputTracker();
+const appRootRef = ref<HTMLDivElement>();
+const portalRootRef = ref<HTMLElement>();
 
-switch (props.mode) {
-  case "full":
-    /*  */
-    break;
-}
+const userSelectModeClassName = getUserSelectModeClassName({
+  userSelectMode: props.userSelectMode,
+  isWebView,
+  hasPointer,
+});
+
+watchEffect(
+  (onCleanup) => {
+    const parentElement = appRootRef.value!.parentElement!;
+    const documentElement = document.documentElement;
+
+    const [baseClassNames, stylesClassNames] = getClassNamesByMode({
+      mode: props.mode,
+      layout: props.layout,
+      tokensClassName: tokensClassName,
+      sizeX: sizeX,
+      sizeY: sizeY,
+    });
+
+    switch (props.mode) {
+      case "full":
+        parentElement.classList.add(...baseClassNames);
+        documentElement.classList.add(...stylesClassNames, "vkui");
+        const unsetSafeAreaInsets = setSafeAreaInsets(
+          props.safeAreaInsets,
+          documentElement
+        );
+
+        onCleanup(() => {
+          parentElement.classList.remove(...baseClassNames);
+          documentElement.classList.remove(...stylesClassNames, "vkui");
+          unsetSafeAreaInsets();
+        });
+
+        break;
+      case "embedded":
+        if (parentElement) {
+          parentElement.classList.add(...baseClassNames, ...stylesClassNames);
+
+          if (!props.disableParentTransformForPositionFixedElements) {
+            parentElement.style.setProperty(
+              "transform",
+              "translate3d(0, 0, 0)"
+            );
+          }
+
+          const unsetSafeAreaInsets = setSafeAreaInsets(
+            props.safeAreaInsets,
+            parentElement,
+            portalRootRef.value
+          );
+
+          onCleanup(() => {
+            parentElement.classList.remove(
+              ...baseClassNames,
+              ...stylesClassNames
+            );
+
+            if (!props.disableParentTransformForPositionFixedElements) {
+              parentElement.style.removeProperty("transform");
+            }
+
+            unsetSafeAreaInsets();
+          });
+        }
+        break;
+      case "partial":
+        break;
+    }
+  },
+  { flush: "post" }
+);
 </script>
 
 <style src="./AppRoot.module.css" module></style>

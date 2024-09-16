@@ -4,6 +4,10 @@ import AdaptivityProvider from "./AdaptivityProvider.vue";
 import ConfigProvider from "../ConfigProvider/ConfigProvider.vue";
 import { useAdaptivityConditionalRender } from "../../composables/useAdaptivityConditionalRender";
 import { Size } from "../../lib/adaptivity";
+import {
+  CanvasFullLayout,
+  DisableCartesianParam,
+} from "../../../.storybook/constants";
 
 const meta: Meta<typeof AdaptivityProvider> = {
   title: "Service/AdaptivityProvider",
@@ -16,6 +20,10 @@ const meta: Meta<typeof AdaptivityProvider> = {
       control: { type: "radio" },
       options: Object.values(Size),
     },
+  },
+  parameters: {
+    ...CanvasFullLayout,
+    ...DisableCartesianParam,
   },
 };
 

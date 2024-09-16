@@ -1,20 +1,20 @@
-import { type BrowserInfo, computeBrowserInfo } from './browser';
+import { type BrowserInfo, computeBrowserInfo } from "./browser";
 
-export const Platform = {
-  ANDROID: 'android',
-  IOS: 'ios',
-  VKCOM: 'vkcom',
-} as const;
+export enum Platform {
+  Android = "android",
+  IOS = "ios",
+  VKCOM = "vkcom",
+}
 
 /**
  * TODO [>=7]: Переименовать 'vkcom' в 'web' и заменить в DEFAULT_TOKENS_CLASS_NAMES тему по умолчанию
  */
-export type PlatformType = 'android' | 'ios' | 'vkcom';
+export type PlatformType = "android" | "ios" | "vkcom";
 
 export function platform(browserInfo?: BrowserInfo): PlatformType {
   if (!browserInfo) {
     browserInfo = computeBrowserInfo();
   }
 
-  return browserInfo.system === 'ios' ? 'ios' : 'android';
+  return browserInfo.system === "ios" ? "ios" : "android";
 }

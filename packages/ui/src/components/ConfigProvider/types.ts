@@ -1,5 +1,5 @@
+import { Platform } from "../../lib/platform";
 import type { AppearanceType } from "../../lib/appearance";
-import type { PlatformType } from "../../lib/platform";
 import type { TokensClassNames } from "../../lib/tokens";
 
 export interface ConfigProvider {
@@ -41,7 +41,7 @@ export interface ConfigProvider {
   /**
    * Платформа
    */
-  platform: PlatformType;
+  platform: Platform;
   /**
    * CSS классы, определяющие набор токенов.
    *
