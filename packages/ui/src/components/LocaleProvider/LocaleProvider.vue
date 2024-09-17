@@ -1,5 +1,5 @@
 <template>
-  <ConfigProvider v-bind="{ locale }">
+  <ConfigProvider :locale="value">
     <slot />
   </ConfigProvider>
 </template>

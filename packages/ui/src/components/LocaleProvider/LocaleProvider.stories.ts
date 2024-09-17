@@ -1,3 +1,4 @@
+import { defineComponent } from "vue";
 import type { Meta, StoryObj } from "@storybook/vue3";
 import LocaleProvider from "./LocaleProvider.vue";
 import {
@@ -5,13 +6,12 @@ import {
   DisableCartesianParam,
 } from "../../../.storybook/constants";
 import { useConfig } from "../../composables/useConfig";
-import { defineComponent } from "vue";
 
 const meta: Meta<typeof LocaleProvider> = {
   title: "Service/LocaleProvider",
   component: LocaleProvider,
   argTypes: {
-    locale: {
+    value: {
       control: { type: "select" },
       options: ["ru", "en", "fr", "ua"],
     },
@@ -39,13 +39,13 @@ export const Playground: StoryObj<typeof LocaleProvider> = {
     return {
       components: { LocaleProvider, DisplayLocaleProvider },
       setup() {
-        const { locale: parentLocale } = useConfig()!.value;
+        const config = useConfig();
 
-        return { args, parentLocale };
+        return { args, config };
       },
       template: `
-        <LocaleProvider :locale="args.locale ?? parentLocale">
-          <div style="padding: 5px">Outer LocaleProvider: {{ parentLocale }}</div>
+        <LocaleProvider :value="args.value ?? config.locale">
+          <div style="padding: 5px">Outer LocaleProvider: {{ locale }}</div>
           <DisplayLocaleProvider />
         </LocaleProvider>
       `,
