@@ -1,5 +1,5 @@
 import { useConfig } from "../../composables/useConfig";
-import { type AppearanceType, DEFAULT_APPEARANCE } from "../appearance";
+import { type Appearance, DEFAULT_APPEARANCE } from "../appearance";
 import { Platform, type PlatformType } from "../platform";
 import { DEFAULT_TOKENS_CLASS_NAMES } from "./constants";
 import type {
@@ -16,7 +16,7 @@ const isTokensClassNamesForPlatforms = (
   Platform.VKCOM in tokensClassNames;
 
 const getTokenClassNameByAppearance = (
-  appearance: AppearanceType,
+  appearance: Appearance,
   tokensClassNames?: TokensClassNamesByAppearances
 ) => (tokensClassNames ? tokensClassNames[appearance] : undefined);
 

@@ -1,6 +1,6 @@
-export enum AppearanceType {
+export enum Appearance {
   Dark = "dark",
   Light = "light",
 }
 
-export const DEFAULT_APPEARANCE = AppearanceType.Light;
+export const DEFAULT_APPEARANCE = Appearance.Light;
