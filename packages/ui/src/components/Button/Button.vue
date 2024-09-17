@@ -13,25 +13,13 @@
 
 <script setup lang="ts">
 import { useCssModule } from "vue";
+import type { ButtonProps } from "./types";
 
-withDefaults(
-  defineProps<{
-    size?: "s" | "m" | "l";
-    mode?: "primary" | "secondary" | "tertiary" | "outline" | "link";
-    appearance?:
-      | "accent"
-      | "positive"
-      | "negative"
-      | "neutral"
-      | "overlay"
-      | "accent-invariable";
-  }>(),
-  {
-    size: "s",
-    mode: "primary",
-    appearance: "accent",
-  }
-);
+withDefaults(defineProps<ButtonProps>(), {
+  size: "s",
+  mode: "primary",
+  appearance: "accent",
+});
 
 const $style = useCssModule();
 
@@ -70,4 +58,4 @@ const sizeYClassNames = {
 };
 </script>
 
-<style src="./Button.module.css" module></style>
+<style src="./Button.module.css" module scoped></style>

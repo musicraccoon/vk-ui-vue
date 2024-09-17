@@ -1,9 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import Button from "./Button.vue";
+import { CanvasFullLayout } from "../../../.storybook/constants";
 
 const meta: Meta<typeof Button> = {
   title: "Blocks/Button",
   component: Button,
+  parameters: CanvasFullLayout,
   argTypes: {
     size: {
       control: { type: "radio" },
@@ -29,9 +31,7 @@ const meta: Meta<typeof Button> = {
 
 export default meta;
 
-type Story = StoryObj<typeof meta>;
-
-export const Playground: Story = {
+export const Playground: StoryObj<typeof Button> = {
   args: {
     size: "s",
     mode: "primary",

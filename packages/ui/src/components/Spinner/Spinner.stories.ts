@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import { CanvasFullLayout } from "../../../.storybook/constants";
 import Spinner from "./Spinner.vue";
+import { SpinnerSize } from "./types";
 
 const meta: Meta<typeof Spinner> = {
   title: "Blocks/Spinner",
@@ -9,16 +10,11 @@ const meta: Meta<typeof Spinner> = {
   argTypes: {
     size: {
       control: { type: "radio" },
-      options: ["small", "regular", "medium", "large"],
+      options: Object.values(SpinnerSize),
     },
   },
 };
 
 export default meta;
 
-export const Playground: StoryObj<typeof meta> = {
-  args: {
-    size: "regular",
-    disableAnimation: false,
-  },
-};
+export const Playground: StoryObj<typeof meta> = {};

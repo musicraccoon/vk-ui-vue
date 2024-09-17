@@ -1,3 +1,5 @@
+import { Ref, ShallowRef } from "vue";
+
 export type SafeAreaInsets = {
   top?: number;
   right?: number;
@@ -68,4 +70,14 @@ export interface AppRootProps {
    * @since 6.2.0
    */
   userSelectMode?: AppRootUserSelectMode;
+}
+
+export interface AppRootContext {
+  appRoot: Ref<HTMLDivElement | undefined>;
+  portalRoot: Ref<HTMLElement | undefined>;
+  embedded: boolean;
+  mode: AppRootMode;
+  disablePortal: boolean;
+  layout?: AppRootLayout;
+  keyboardInput: ShallowRef<boolean>;
 }

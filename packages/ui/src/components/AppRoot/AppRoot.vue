@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect, provide } from "vue";
 import {
   getClassNamesByMode,
   getUserSelectModeClassName,
@@ -14,8 +14,9 @@ import {
 import type { AppRootProps } from "./types";
 import { useAdaptivity } from "../../composables/useAdaptivity";
 import { useTokensClassName } from "../../lib/tokens";
-// import { useKeyboardInputTracker } from "../../composables/useKeyboardInputTracker";
+import { useKeyboardInputTracker } from "../../composables/useKeyboardInputTracker";
 import { useConfig } from "../../composables/useConfig";
+import { appRootInjectionKey } from "../../composables/useAppRoot";
 
 const props = withDefaults(defineProps<AppRootProps>(), {
   mode: "full",
@@ -30,7 +31,7 @@ const { hasPointer, sizeX = "none", sizeY = "none" } = useAdaptivity().value;
 const { isWebView } = useConfig()!.value;
 const tokensClassName = useTokensClassName();
 
-// const isKeyboardInputActive = useKeyboardInputTracker();
+const isKeyboardInputActive = useKeyboardInputTracker();
 const appRootRef = ref<HTMLDivElement>();
 const portalRootRef = ref<HTMLElement>();
 
@@ -38,6 +39,18 @@ const userSelectModeClassName = getUserSelectModeClassName({
   userSelectMode: props.userSelectMode,
   isWebView,
   hasPointer,
+});
+
+provide(appRootInjectionKey, {
+  appRoot: appRootRef,
+  portalRoot: portalRootRef,
+  embedded: props.mode === "embedded",
+  mode: props.mode,
+  disablePortal: props.disablePortal,
+  layout: props.layout,
+  get keyboardInput() {
+    return isKeyboardInputActive.value;
+  },
 });
 
 watchEffect(

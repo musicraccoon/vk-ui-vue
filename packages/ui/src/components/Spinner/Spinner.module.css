@@ -7,6 +7,10 @@
   color: var(--vkui--color_icon_medium);
 }
 
+.Spinner--no-color {
+  color: currentColor;
+}
+
 @keyframes pulse {
   from {
     opacity: 1;

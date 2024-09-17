@@ -9,6 +9,7 @@ import { Breakpoints } from "../src/lib/adaptivity";
 import { Platform } from "../src/lib/platform";
 
 import { withVKUIWrapper } from "./decorators/VKUIDecorators";
+import { Appearance } from "../src/lib/appearance";
 
 interface CustomViewPortItem {
   name: string;
@@ -41,6 +42,9 @@ const preview: Preview = {
     viewport: { viewports: customViewports },
   },
   globalTypes: {
+    appearance: {
+      defaultValue: Appearance.Light,
+    },
     platform: {
       name: "Platform",
       description: "Platform for components",

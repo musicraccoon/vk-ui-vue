@@ -1,9 +1,9 @@
 <template>
   <RootComponent
-    :component="component"
+    :as="as"
     :class="[
       $style['VisuallyHidden'],
-      component === 'input' && $style['VisuallyHidden--focusable-input'],
+      as === 'input' && $style['VisuallyHidden--focusable-input'],
     ]"
   >
     <slot />
@@ -12,15 +12,11 @@
 
 <script setup lang="ts">
 import RootComponent from "../RootComponent/RootComponent.vue";
+import type { VisuallyHiddenProps } from "./types";
 
-withDefaults(
-  defineProps<{
-    component?: string;
-  }>(),
-  {
-    component: "span",
-  }
-);
+withDefaults(defineProps<VisuallyHiddenProps>(), {
+  as: "span",
+});
 </script>
 
 <style src="./VisuallyHidden.module.css" module scoped></style>

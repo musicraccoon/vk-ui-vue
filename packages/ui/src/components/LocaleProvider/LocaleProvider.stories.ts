@@ -45,7 +45,7 @@ export const Playground: StoryObj<typeof LocaleProvider> = {
       },
       template: `
         <LocaleProvider :value="args.value ?? config.locale">
-          <div style="padding: 5px">Outer LocaleProvider: {{ locale }}</div>
+          <div style="padding: 5px">Outer LocaleProvider: {{ config.locale }}</div>
           <DisplayLocaleProvider />
         </LocaleProvider>
       `,

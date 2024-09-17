@@ -1,5 +1,9 @@
 <template>
-  <RootComponent component="span" :class="[$style['Spinner']]" role="status">
+  <RootComponent
+    component="span"
+    :class="[$style['Spinner'], noColor && $style['Spinner--no-color']]"
+    role="status"
+  >
     <Component
       :is="SpinnerIcon[size]"
       :class="!disableAnimation && $style['Spinner--animation']"
@@ -15,16 +19,11 @@ import {
   Icon44Spinner,
 } from "@musicraccoon/vk-icons-vue";
 import RootComponent from "../RootComponent/RootComponent.vue";
+import { SpinnerProps, SpinnerSize } from "./types";
 
-withDefaults(
-  defineProps<{
-    size?: "small" | "regular" | "medium" | "large";
-    disableAnimation?: boolean;
-  }>(),
-  {
-    size: "regular",
-  }
-);
+withDefaults(defineProps<SpinnerProps>(), {
+  size: SpinnerSize.Regular,
+});
 
 const SpinnerIcon = {
   small: Icon16Spinner,

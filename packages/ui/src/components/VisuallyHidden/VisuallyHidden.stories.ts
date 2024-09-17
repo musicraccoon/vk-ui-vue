@@ -13,14 +13,13 @@ const meta: Meta<typeof VisuallyHidden> = {
       template: `<VisuallyHidden>{{args.default}}</VisuallyHidden>`,
     };
   },
-  args: {},
 };
 
 export default meta;
 
 export const Playground: StoryObj<typeof VisuallyHidden> = {
   args: {
-    component: "span",
+    as: "span",
     default:
       "Этот текст скрыт визуально, но доступен для ассистивных технологий!",
   },

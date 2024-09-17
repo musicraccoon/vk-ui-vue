@@ -1,6 +1,6 @@
 <template>
   <Component
-    :is="component"
+    :is="is"
     :class="[
       $style['RootComponent'],
       hidden && $style['RootComponent--hidden'],
@@ -11,26 +11,11 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(
-  defineProps<{
-    component?: string;
-    hidden?: boolean;
-  }>(),
-  {
-    component: "div",
-  }
-);
+import { RootComponentProps } from "./types";
+
+withDefaults(defineProps<RootComponentProps>(), {
+  is: "div",
+});
 </script>
 
-<style module scoped>
-.RootComponent[hidden="hidden"],
-.RootComponent--hidden {
-  /* stylelint-disable-next-line declaration-no-important */
-  display: none !important;
-}
-
-.RootComponent[hidden="until-found"] {
-  /* stylelint-disable-next-line declaration-no-important */
-  content-visibility: hidden !important;
-}
-</style>
+<style src="./RootComponent.module.css" module scoped></style>

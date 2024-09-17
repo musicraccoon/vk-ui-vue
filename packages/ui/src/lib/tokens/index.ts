@@ -1,3 +1,5 @@
+export { default as TokensClassProvider } from "./TokensClassProvider.vue";
+
 export type {
   TokensClassNamesByAppearances,
   TokensClassNamesByPlatforms,

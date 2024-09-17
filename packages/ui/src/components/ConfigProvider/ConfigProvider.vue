@@ -1,12 +1,17 @@
 <template>
-  <slot />
+  <TokensClassProvider>
+    <slot />
+  </TokensClassProvider>
 </template>
 
 <script setup lang="ts">
 import { provide, computed } from "vue";
 import type { ConfigProvider } from "./types";
 import { configInjectionKey, useConfig } from "../../composables/useConfig";
-import { DEFAULT_TOKENS_CLASS_NAMES } from "../../lib/tokens";
+import {
+  TokensClassProvider,
+  DEFAULT_TOKENS_CLASS_NAMES,
+} from "../../lib/tokens";
 import { Platform } from "../../lib/platform";
 import { excludeKeysWithUndefined } from "../../lib/utils";
 
