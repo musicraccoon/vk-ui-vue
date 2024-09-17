@@ -1,5 +1,5 @@
 import { Platform } from "../../lib/platform";
-import type { AppearanceType } from "../../lib/appearance";
+import type { Appearance } from "../../lib/appearance";
 import type { TokensClassNames } from "../../lib/tokens";
 
 export interface ConfigProvider {
@@ -33,7 +33,7 @@ export interface ConfigProvider {
   /**
    * Тип цветовой схемы – `light` или `dark`
    */
-  appearance: AppearanceType | undefined;
+  appearance: Appearance | undefined;
   /**
    * Включена ли анимация переходов между экранами в `Root` и `View`
    */
