@@ -1,6 +1,6 @@
 <template>
   <Component
-    :is="is"
+    :is="as"
     :class="[
       $style['RootComponent'],
       hidden && $style['RootComponent--hidden'],
@@ -14,7 +14,7 @@
 import { RootComponentProps } from "./types";
 
 withDefaults(defineProps<RootComponentProps>(), {
-  is: "div",
+  as: "div",
 });
 </script>
 

@@ -1,4 +1,4 @@
 export interface RootComponentProps {
-  is?: string;
+  as?: string;
   hidden?: boolean;
 }
