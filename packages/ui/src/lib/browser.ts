@@ -20,7 +20,7 @@ export function computeBrowserInfo(userAgent = ""): BrowserInfo {
     systemVersion: null,
   };
 
-  // TODO. Добавить функционал определения IOS устройства.
+  // TODO: Добавить функционал определения IOS устройства.
   // const { isIOS, iosMajor, iosMinor } = detectIOS(userAgent);
 
   if (false) {

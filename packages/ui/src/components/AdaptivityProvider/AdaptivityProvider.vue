@@ -46,6 +46,7 @@ const adaptivity = computed<AdaptivityProps>(() => {
   return nextProps;
 });
 
+// TODO: Подумать над тем, стоит ли передавать Computed
 provide(adaptivityInjectionKey, adaptivity);
 </script>
 
