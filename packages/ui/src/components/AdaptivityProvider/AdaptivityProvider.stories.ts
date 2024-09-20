@@ -29,7 +29,7 @@ const meta: Meta<typeof AdaptivityProvider> = {
 
 export default meta;
 
-export const PLayground: StoryObj<typeof ConfigProvider> = {
+export const Playground: StoryObj<typeof ConfigProvider> = {
   render: (args) => {
     const DisplayAdaptivityProvider = defineComponent({
       name: "DisplayAdaptivityProvider",
