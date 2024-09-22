@@ -1,15 +1,8 @@
-export enum SpinnerSize {
-  Small = "small",
-  Regular = "regular",
-  Medium = "medium",
-  Large = "large",
-}
-
 export interface SpinnerProps {
+  size?: "small" | "regular" | "medium" | "large";
   /**
-   * @default regular
+   * Задать цвет можно будет через свойство color родителя
    */
-  size?: SpinnerSize;
   disableAnimation?: boolean;
   noColor?: boolean;
 }

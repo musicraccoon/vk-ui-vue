@@ -8,7 +8,10 @@ import {
 const meta: Meta<typeof Group> = {
   title: "Blocks/Group",
   component: Group,
-  parameters: { ...CanvasFullLayout, ...DisableCartesianParam },
+  parameters: {
+    ...CanvasFullLayout,
+    ...DisableCartesianParam,
+  },
 };
 
 export default meta;

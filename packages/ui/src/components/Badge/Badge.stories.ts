@@ -6,12 +6,6 @@ const meta: Meta<typeof Badge> = {
   title: "Blocks/Badge",
   component: Badge,
   parameters: CanvasFullLayout,
-  argTypes: {
-    mode: {
-      control: { type: "radio" },
-      options: ["new", "prominent"],
-    },
-  },
 };
 
 export default meta;

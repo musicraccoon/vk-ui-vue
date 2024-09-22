@@ -1,7 +1,7 @@
 <template>
   <RootComponent
     as="span"
-    :class="[$style['Badge'], 'vkuiInternalBadge', stylesMode[mode]]"
+    :class="[styles['Badge'], 'vkuiInternalBadge', stylesMode[mode]]"
   >
     <VisuallyHidden v-if="$slots.default">
       <slot />
@@ -10,21 +10,17 @@
 </template>
 
 <script setup lang="ts">
-import { useCssModule } from "vue";
 import RootComponent from "../RootComponent/RootComponent.vue";
 import VisuallyHidden from "../VisuallyHidden/VisuallyHidden.vue";
 import type { BadgeProps } from "./types";
+import styles from "./Badge.module.css";
 
 withDefaults(defineProps<BadgeProps>(), {
   mode: "new",
 });
 
-const $style = useCssModule();
-
 const stylesMode = {
-  new: $style["Badge--mode-new"],
-  prominent: $style["Badge--mode-prominent"],
+  new: styles["Badge--mode-new"],
+  prominent: styles["Badge--mode-prominent"],
 };
 </script>
-
-<style src="./Badge.module.css" module scoped></style>

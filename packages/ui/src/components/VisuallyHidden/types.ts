@@ -1,3 +1,3 @@
 export interface VisuallyHiddenProps {
-  as: string;
+  as?: string;
 }

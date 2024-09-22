@@ -4,23 +4,12 @@ import VisuallyHidden from "./VisuallyHidden.vue";
 const meta: Meta<typeof VisuallyHidden> = {
   title: "Service/VisuallyHidden",
   component: VisuallyHidden,
-  render: (args) => {
-    return {
-      components: { VisuallyHidden },
-      setup() {
-        return { args };
-      },
-      template: `<VisuallyHidden>{{args.default}}</VisuallyHidden>`,
-    };
+  args: {
+    default:
+      "Этот текст скрыт визуально, но доступен для ассистивных технологий!",
   },
 };
 
 export default meta;
 
-export const Playground: StoryObj<typeof VisuallyHidden> = {
-  args: {
-    as: "span",
-    default:
-      "Этот текст скрыт визуально, но доступен для ассистивных технологий!",
-  },
-};
+export const Playground: StoryObj<typeof VisuallyHidden> = {};

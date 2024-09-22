@@ -1,13 +1,16 @@
 <template>
   <RootComponent
-    component="span"
-    :class="[$style['Spinner'], noColor && $style['Spinner--no-color']]"
+    as="span"
+    :class="[styles['Spinner'], noColor && styles['Spinner--no-color']]"
     role="status"
   >
     <Component
       :is="SpinnerIcon[size]"
-      :class="!disableAnimation && $style['Spinner--animation']"
+      :class="!disableAnimation && styles['Spinner--animation']"
     />
+    <VisuallyHidden>
+      <slot> Загрузка... </slot>
+    </VisuallyHidden>
   </RootComponent>
 </template>
 
@@ -19,10 +22,12 @@ import {
   Icon44Spinner,
 } from "@musicraccoon/vk-icons-vue";
 import RootComponent from "../RootComponent/RootComponent.vue";
-import { SpinnerProps, SpinnerSize } from "./types";
+import VisuallyHidden from "../VisuallyHidden/VisuallyHidden.vue";
+import type { SpinnerProps } from "./types";
+import styles from "./Spinner.module.css";
 
 withDefaults(defineProps<SpinnerProps>(), {
-  size: SpinnerSize.Regular,
+  size: "regular",
 });
 
 const SpinnerIcon = {
@@ -32,5 +37,3 @@ const SpinnerIcon = {
   large: Icon44Spinner,
 };
 </script>
-
-<style src="./Spinner.module.css" module scoped></style>

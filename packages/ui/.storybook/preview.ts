@@ -38,7 +38,14 @@ const customViewports = Object.entries(Breakpoints)
 
 const preview: Preview = {
   parameters: {
-    controls: { expanded: true },
+    docs: {
+      source: {
+        type: "dynamic",
+      },
+    },
+    controls: {
+      expanded: true,
+    },
     viewport: { viewports: customViewports },
   },
   globalTypes: {
