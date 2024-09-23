@@ -7,7 +7,8 @@
     "storybook:dev": "storybook dev -p 6006"
   },
   "dependencies": {
-    "@musicraccoon/vk-icons-vue": "^1.0.2"
+    "@musicraccoon/vk-icons-vue": "^1.0.2",
+    "date-fns": "^4.1.0"
   },
   "devDependencies": {
     "@csstools/postcss-global-data": "^3.0.0",

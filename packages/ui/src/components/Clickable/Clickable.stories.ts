@@ -8,18 +8,42 @@ import {
 const meta: Meta<typeof Clickable> = {
   title: "Blocks/Clickable",
   component: Clickable,
-  parameters: { ...CanvasFullLayout, DisableCartesianParam },
+  parameters: {
+    ...CanvasFullLayout,
+    ...DisableCartesianParam,
+    controls: {
+      include: [
+        "class",
+        "as",
+        "focusVisibleMode",
+        "hasHover",
+        "hovered",
+        "activated",
+        "hasActive",
+        "hasHoverWithChildren",
+        "unlockParentHover",
+        "activeEffectDelay",
+        "activeClassName",
+        "hoverClassName",
+      ],
+    },
+  },
 };
 
 export default meta;
 
 export const Playground: StoryObj<typeof Clickable> = {
-  render: () => {
+  render: (args) => {
     return {
       components: { Clickable },
+      setup() {
+        return { args };
+      },
       template: `
-        <Clickable>
-          <div :style="{ padding: 16 }">Clickable</div>
+        <Clickable v-bind="args" @click="() => {}">
+          <div :style="{ padding: 16 + 'px' }">
+            Clickable
+          </div>
         </Clickable>
       `,
     };
