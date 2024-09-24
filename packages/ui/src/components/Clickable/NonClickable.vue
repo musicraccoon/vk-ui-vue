@@ -10,5 +10,3 @@ import type { ClickableProps } from "./types";
 
 defineProps<ClickableProps>();
 </script>
-
-<style scoped></style>

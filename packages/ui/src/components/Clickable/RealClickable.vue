@@ -1,18 +1,30 @@
 <template>
-  <RootComponent :class="[$style['Clickable__realClickable']]"></RootComponent>
+  <RootComponent
+    :class="[styles['Clickable__realClickable'], focusVisibleClassNames]"
+    v-bind="{
+      onFocus,
+      onBlur,
+    }"
+  >
+    <pre>{{ { focusVisible } }}</pre>
+    <slot />
+  </RootComponent>
 </template>
 
 <script setup lang="ts">
-import { useCssModule } from "vue";
 import RootComponent from "../RootComponent/RootComponent.vue";
 import type { ClickableProps } from "./types";
+import { useFocusVisible } from "../../composables/useFocusVisible";
+import { useFocusVisibleClassName } from "../../composables/useFocusVisibleClassName";
+import styles from "./Clickable.module.css";
 
-const $style = useCssModule();
+const props = withDefaults(defineProps<ClickableProps>(), {
+  focusVisibleMode: "inside",
+});
 
-defineProps<ClickableProps>();
-
-const { focusVisible, ...focusEvents } = useFocusVisible();
-// const focusVisibleClassNames = useFocusVisibleClassName({ focusVisible, mode: focusVisibleMode });
+const { focusVisible, onFocus, onBlur } = useFocusVisible();
+const focusVisibleClassNames = useFocusVisibleClassName({
+  focusVisible,
+  mode: props.focusVisibleMode,
+});
 </script>
-
-<style src="./Clickable.module.css" module scoped></style>

@@ -1,30 +1,35 @@
-import { shallowRef, type Events } from "vue";
+import { computed, shallowRef } from "vue";
+import type { ComputedRef, Events } from "vue";
 import { useAppRoot } from "./useAppRoot";
 
 export const useFocusVisible = (
   withKeyboardInputCheck = true
 ): {
-  focusVisible: boolean;
-  onFocus: (event: Events["onFocus"]) => void;
-  onBlur: (event: Events["onBlur"]) => void;
+  focusVisible: ComputedRef<boolean>;
+  onFocus: (e: Events["onFocus"]) => void;
+  onBlur: (e: Events["onBlur"]) => void;
 } => {
   const isFocused = shallowRef(false);
 
   const appRoot = useAppRoot();
 
   const onFocus = (e: Events["onFocus"]) => {
+    console.log("onFocus");
     e.stopPropagation();
     isFocused.value = true;
   };
 
   const onBlur = (e: Events["onBlur"]) => {
+    console.log("onBlur");
     e.stopPropagation();
     isFocused.value = false;
   };
 
-  const focusVisible = withKeyboardInputCheck
-    ? appRoot?.keyboardInput.value && isFocused
-    : isFocused;
+  const focusVisible = computed(() => {
+    return withKeyboardInputCheck
+      ? appRoot!.keyboardInput.value && isFocused.value
+      : isFocused.value;
+  });
 
   return {
     focusVisible,

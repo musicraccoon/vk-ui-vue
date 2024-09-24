@@ -1,3 +1,4 @@
+import { computed, toValue, type MaybeRef } from "vue";
 import styles from "../styles/focusVisible.module.css";
 import type { LiteralUnion } from "../types";
 
@@ -24,7 +25,7 @@ const isPresetMode = (mode: FocusVisibleMode): mode is FocusVisiblePresetMode =>
   mode === "inside" || mode === "outside";
 
 export interface UseFocusVisibleClassNameProps {
-  focusVisible?: boolean;
+  focusVisible?: MaybeRef<boolean>;
   mode?: FocusVisibleMode;
 }
 
@@ -37,16 +38,18 @@ export interface UseFocusVisibleClassNameProps {
 export const useFocusVisibleClassName = ({
   focusVisible = false,
   mode = "inside",
-}: UseFocusVisibleClassNameProps): (string | false)[] => {
+}: UseFocusVisibleClassNameProps) => {
   const modeClassName = isPresetMode(mode)
     ? focusVisiblePresetModeClassNames[mode]
     : mode;
 
-  const focusVisibleClassNames = [
-    styles["-focus-visible"],
-    focusVisible && styles["-focus-visible--focused"],
-    focusVisible && modeClassName,
-  ];
+  const focusVisibleClassNames = computed(() => {
+    return [
+      styles["-focus-visible"],
+      toValue(focusVisible) && styles["-focus-visible--focused"],
+      toValue(focusVisible) && modeClassName,
+    ];
+  });
 
   return focusVisibleClassNames;
 };

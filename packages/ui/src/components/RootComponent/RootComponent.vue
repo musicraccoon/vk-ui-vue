@@ -2,8 +2,8 @@
   <Component
     :is="as"
     :class="[
-      $style['RootComponent'],
-      hidden && $style['RootComponent--hidden'],
+      styles['RootComponent'],
+      hidden && styles['RootComponent--hidden'],
     ]"
   >
     <slot />
@@ -12,10 +12,9 @@
 
 <script setup lang="ts">
 import { RootComponentProps } from "./types";
+import styles from "./RootComponent.module.css";
 
 withDefaults(defineProps<RootComponentProps>(), {
   as: "div",
 });
 </script>
-
-<style src="./RootComponent.module.css" module scoped></style>

@@ -6,9 +6,8 @@
       styles['Skeleton'],
       !isAnimationStarted && styles['Skeleton--disableAnimation'],
     ]"
-    :style="{ ...skeletonStyle, ...{} }"
+    :style="{ ...skeletonStyle }"
   >
-    {{ !isAnimationStarted }}
     <slot> &zwnj; </slot>
   </RootComponent>
 </template>
@@ -25,7 +24,7 @@ const CUSTOM_PROPERTY_GRADIENT_LEFT = "--vkui_internal--skeleton_gradient_left";
 const props = defineProps<SkeletonProps>();
 
 const noAnimation = computed(() => props.noAnimation);
-const rootRef = ref<HTMLElement>();
+const rootRef = ref<InstanceType<typeof RootComponent>>();
 const isAnimationStarted = useSkeletonSyncAnimation(
   noAnimation,
   props.duration

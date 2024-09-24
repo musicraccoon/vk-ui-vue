@@ -1,5 +1,6 @@
 import { shallowRef, watchEffect, type Ref } from "vue";
 import { millisecondsInSecond } from "date-fns/constants";
+import RootComponent from "../RootComponent/RootComponent.vue";
 
 /**
  * Синхронизирует анимацию скелетонов с помощью временных отрезков
@@ -54,16 +55,18 @@ export const useSkeletonSyncAnimation = (
 /**
  * Вычисляет позицию скелетона
  */
-export const useSkeletonPosition = (rootRef: Ref<HTMLElement | undefined>) => {
+export const useSkeletonPosition = (
+  rootRef: Ref<InstanceType<typeof RootComponent> | undefined>
+) => {
   const skeletonGradientLeft = shallowRef("0");
   const prevSkeletonGradientLeft = "0";
 
   const updatePosition = () => {
-    const el = rootRef.value;
-    if (!el) {
+    if (!rootRef.value) {
       return;
     }
 
+    const el = rootRef.value.$el;
     const value = -(
       el.getBoundingClientRect().left -
       document.body.getBoundingClientRect().left
@@ -77,6 +80,8 @@ export const useSkeletonPosition = (rootRef: Ref<HTMLElement | undefined>) => {
   watchEffect(updatePosition);
 
   window.addEventListener("resize", updatePosition);
+
+  // TODO: Добавить обновление позиции при ресайзе страницы
   // useGlobalEventListener(window, "resize", updatePosition);
 
   return skeletonGradientLeft;

@@ -1,39 +1,38 @@
 <template>
-  <RealClickable
-    v-if="isClickable"
-    :class="baseClassName"
-    v-bind="{ ...commonProps, ...props }"
+  <Component
+    :is="isClickable ? RealClickable : NonClickable"
+    v-bind="{ ...commonProps, class: baseClassName, as: props.as }"
   >
-    1
+    <pre>
+    {{
+        {
+          isClickable,
+        }
+      }}
+  </pre
+    >
+
     <slot />
-  </RealClickable>
-  <NonClickable
-    v-else
-    :class="baseClassName"
-    v-bind="{ ...commonProps, ...props }"
-  >
-    2
-    <slot />
-  </NonClickable>
+  </Component>
 </template>
 
 <script setup lang="ts">
+import { useAttrs } from "vue";
 import RealClickable from "./RealClickable.vue";
 import NonClickable from "./NonClickable.vue";
 import type { ClickableProps } from "./types";
 import type { RootComponentProps } from "../RootComponent/types";
 import styles from "./Clickable.module.css";
 
-defineEmits<{
-  (e: "onClick", value: MouseEvent): void;
-}>();
-
-const component = (props: RootComponentProps) => {
+const component = (
+  props: RootComponentProps,
+  attrs: Record<string, unknown>
+) => {
   if (props.as !== undefined) {
     return { as: props.as };
   } else if (props.href !== undefined) {
     return { as: "a", "aria-disabled": props.disabled };
-  } else if (props.onClick == undefined) {
+  } else if (attrs.onClick !== undefined) {
     return {
       as: "div",
       role: "button",
@@ -44,11 +43,13 @@ const component = (props: RootComponentProps) => {
 
   return {};
 };
-const checkClickable = (props: ClickableProps): boolean => {
+const checkClickable = (
+  props: ClickableProps,
+  attrs: Record<string, unknown>
+): boolean => {
   return (
     (props.href !== undefined ||
-      props.onClick !== undefined ||
-      props.onClickCapture !== undefined ||
+      attrs.onClick !== undefined ||
       props.as === "a" ||
       props.as === "button" ||
       props.as === "label" ||
@@ -57,14 +58,13 @@ const checkClickable = (props: ClickableProps): boolean => {
   );
 };
 
+const attrs = useAttrs();
 const props = withDefaults(defineProps<ClickableProps>(), {
   focusVisibleMode: "inside",
 });
 
-console.log(props);
-
-const commonProps: RootComponentProps = component(props);
-const isClickable = checkClickable(props);
+const commonProps: RootComponentProps = component(props, attrs);
+const isClickable = checkClickable(props, attrs);
 
 const baseClassName = [props.class, styles["Clickable__host"]];
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div ref="appRootRef" :class="[$style['AppRoot'], userSelectModeClassName]">
+  <div ref="appRootRef" :class="[styles['AppRoot'], userSelectModeClassName]">
     <slot />
   </div>
 </template>
@@ -17,6 +17,7 @@ import { useTokensClassName } from "../../lib/tokens";
 import { useKeyboardInputTracker } from "../../composables/useKeyboardInputTracker";
 import { useConfig } from "../../composables/useConfig";
 import { appRootInjectionKey } from "../../composables/useAppRoot";
+import styles from "./AppRoot.module.css";
 
 const props = withDefaults(defineProps<AppRootProps>(), {
   mode: "full",
@@ -48,9 +49,7 @@ provide(appRootInjectionKey, {
   mode: props.mode,
   disablePortal: props.disablePortal,
   layout: props.layout,
-  get keyboardInput() {
-    return isKeyboardInputActive.value;
-  },
+  keyboardInput: isKeyboardInputActive,
 });
 
 watchEffect(
@@ -120,5 +119,3 @@ watchEffect(
   { flush: "post" }
 );
 </script>
-
-<style src="./AppRoot.module.css" module></style>

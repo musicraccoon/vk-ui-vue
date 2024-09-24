@@ -1,4 +1,4 @@
-import { ref, watchEffect, type Events } from "vue";
+import { shallowRef, watchEffect, type Events } from "vue";
 import { isKeyboardFocusingStarted } from "../lib/accessibility";
 
 export const ENABLE_KEYBOARD_INPUT_EVENT_NAME = "enableKeyboardInput";
@@ -10,7 +10,7 @@ const EVENT_OPTIONS = {
 };
 
 export const useKeyboardInputTracker = () => {
-  const keyboardFocusingStarted = ref(false);
+  const keyboardFocusingStarted = shallowRef(false);
 
   watchEffect((onCleanup) => {
     const handleKeydown = (e: Events["onKeydown"]) => {
