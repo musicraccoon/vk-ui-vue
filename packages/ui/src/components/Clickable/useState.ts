@@ -49,3 +49,7 @@ export interface StateProps {
    */
   hoverClassName?: string;
 }
+
+export const DEFAULT_ACTIVE_EFFECT_DELAY = 600;
+
+const ACTIVE_DELAY = 70;

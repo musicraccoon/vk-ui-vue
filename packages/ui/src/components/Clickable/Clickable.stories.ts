@@ -37,14 +37,11 @@ export const Playground: StoryObj<typeof Clickable> = {
     return {
       components: { Clickable },
       setup() {
-        const onFocus = () => {
-          console.log("onFocus in stories!");
-        };
-        return { args, onClick: onFocus };
+        return { args };
       },
       template: `
-        <Clickable v-bind="args" @click="() => {}" @focus="onFocus">
-          <div :style="{ padding: 16 + 'px' }">
+        <Clickable v-bind="args" @click="() => {}">
+          <div style="padding: 16px">
             Clickable
           </div>
         </Clickable>

@@ -1,7 +1,7 @@
 import { useConfig } from "./useConfig";
 
 export const usePlatform = () => {
-  const { platform } = useConfig();
+  const config = useConfig();
 
-  return platform;
+  return config!.value.platform;
 };

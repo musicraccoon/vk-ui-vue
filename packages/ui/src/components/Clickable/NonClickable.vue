@@ -1,5 +1,5 @@
 <template>
-  <RootComponent>
+  <RootComponent :as="$props.as" :hidden="$props.hidden">
     <slot />
   </RootComponent>
 </template>

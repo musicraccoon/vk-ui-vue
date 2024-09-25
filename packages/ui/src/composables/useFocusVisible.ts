@@ -14,13 +14,11 @@ export const useFocusVisible = (
   const appRoot = useAppRoot();
 
   const onFocus = (e: Events["onFocus"]) => {
-    console.log("onFocus");
     e.stopPropagation();
     isFocused.value = true;
   };
 
   const onBlur = (e: Events["onBlur"]) => {
-    console.log("onBlur");
     e.stopPropagation();
     isFocused.value = false;
   };
