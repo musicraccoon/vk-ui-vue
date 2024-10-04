@@ -6,6 +6,8 @@
       borderRadiusMode === 'inherit' && styles['Tappable--borderRadiusInherit'],
       hasPointerClassName(hasPointer),
     ]"
+    :hover-class="hoverClass(hoverMode)"
+    :active-class="activeClass(activeMode)"
     v-bind="{
       ...typeProps,
       ...rippleEvents,
@@ -27,15 +29,14 @@ import { useAdaptivity } from "../../composables/useAdaptivity";
 import { useMaybeNeedRipple } from "./useMaybeNeedRipple";
 import { useRipple } from "./useRipple";
 import Ripple from "./Ripple.vue";
-import styles from "./Tappable.module.css";
 import { Size } from "../../lib/adaptivity";
-
-// TODO: Добавить activeMode и hoverMode
+import { activeClass, DEFAULT_STATE_MODE, hoverClass } from "./state";
+import styles from "./Tappable.module.css";
 
 const props = withDefaults(defineProps<TappableProps>(), {
   borderRadiusMode: "auto",
-  hoverMode: "background",
-  activeMode: "background",
+  hoverMode: DEFAULT_STATE_MODE,
+  activeMode: DEFAULT_STATE_MODE,
 });
 const attrs = useAttrs();
 
@@ -45,10 +46,11 @@ const sizeXClassNames = {
 };
 
 const isClickable = checkClickable({ ...props, ...attrs });
-const { sizeX = "none", hasPointer } = useAdaptivity().value;
+const adaptivity = useAdaptivity();
+const sizeX = adaptivity.value.sizeX || "none";
+const hasPointer = adaptivity.value.hasPointer;
 
-// TODO: 'background' заменить на activeMode
-const needRipple = useMaybeNeedRipple("background", hasPointer);
+const needRipple = useMaybeNeedRipple(props.activeMode, hasPointer);
 const { clicks, ...rippleEvents } = useRipple(needRipple, hasPointer);
 
 const typeProps = props.as === "button" ? { type: "button" } : {};

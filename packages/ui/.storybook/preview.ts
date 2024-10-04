@@ -52,6 +52,9 @@ const preview: Preview = {
     appearance: {
       defaultValue: Appearance.Light,
     },
+    hasPointer: {
+      defaultValue: true,
+    },
     platform: {
       name: "Platform",
       description: "Platform for components",

@@ -1,9 +1,14 @@
 <template>
   <RootComponent
-    :class="[styles['Clickable__realClickable'], focusVisibleClassNames]"
+    :class="[
+      styles['Clickable__realClickable'],
+      focusVisibleClassNames,
+      stateClass,
+    ]"
     v-bind="{
       ...focusEvents,
       as: props.as,
+      ...handlers,
     }"
   >
     <slot />
@@ -15,6 +20,7 @@ import RootComponent from "../RootComponent/RootComponent.vue";
 import type { ClickableProps } from "./types";
 import { useFocusVisible } from "../../composables/useFocusVisible";
 import { useFocusVisibleClassName } from "../../composables/useFocusVisibleClassName";
+import { useState } from "./useState";
 import styles from "./Clickable.module.css";
 
 // TODO: hasHover
@@ -23,11 +29,16 @@ import styles from "./Clickable.module.css";
 // TODO: hasActive
 // TODO: hasHoverWithChildren
 // TODO: unlockParentHover
-// TODO: activeClassName
-// TODO: hoverClassName
+// TODO: activeClass
+// TODO: hoverClass
 
 const props = withDefaults(defineProps<ClickableProps>(), {
   focusVisibleMode: "inside",
+});
+
+const { stateClass, ...handlers } = useState({
+  activeClass: props.activeClass,
+  hoverClass: props.hoverClass,
 });
 
 const { focusVisible, ...focusEvents } = useFocusVisible();

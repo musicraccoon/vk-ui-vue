@@ -1,4 +1,4 @@
-import { ref, type CSSProperties } from "vue";
+import { shallowRef, type CSSProperties } from "vue";
 import type { Decorator } from "@storybook/vue3";
 
 import AppRoot from "../../src/components/AppRoot/AppRoot.vue";
@@ -13,13 +13,14 @@ const CenteredStyle: CSSProperties = {
   flexDirection: "column",
 };
 
-const platform = ref<Platform>();
+const platform = shallowRef<Platform>();
+const hasPointer = shallowRef<boolean>();
 
 export const withVKUIWrapper: Decorator = (_, context) => {
   const globals = context.globals;
 
-  const hasPointer = globals.hasPointer;
   platform.value = globals.platform;
+  hasPointer.value = globals.hasPointer;
 
   const { centered } = context.parameters;
 

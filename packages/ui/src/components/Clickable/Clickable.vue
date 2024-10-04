@@ -6,6 +6,8 @@
       class: baseClassName,
       as: $props.as,
       hidden: $props.hidden,
+      hoverClass: $props.hoverClass,
+      activeClass: $props.activeClass,
     }"
   >
     <slot />
